@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Ajax-type-ahead</title>
+</head>
+<body>
+<form>
+ City: <input type="text" name="city" class="search"><br>
+ <ul class="suggestions">
+ <li>City</li>
+ <li>or a State</li>
+ </ul>
+</form>
+
+
+
+<script>
+const endpoint="https://raw.githubusercontent.com/nshntarora/Indian-Cities-JSON/master/cities-name-list.json";
+const cities = [];
+fetch(endpoint)
+	.then(blob => blob.json())
+	.then(data => cities.push(...data));
+
+
+function findMatches(wordToMatch, cities){
+	return cities.filter(place =>{
+		const regex = new RegExp(wordToMatch, 'gi'); 
+		return place.match(regex);
+	});
+}
+function displayMatches(){
+const matchArray = findMatches(this.value,cities);
+const html = matchArray.map(place => { 	
+	const regex = new RegExp(this.value,'gi');
+	const cityName = place.replace(regex, `<span class="hl">${this.value}</span>`); 
+	return `
+		<li>
+			<span class="name">${place}</span>	
+		</li
+	`;
+}).join('');
+suggestion.innerHTML = html;
+}
+
+const searchinput = document.querySelector('.search');
+const suggestion = document.querySelector('.suggestions');
+searchinput.addEventListener('change', displayMatches);
+searchinput.addEventListener('keyup', displayMatches);
+</script>
+</body>
+
+</html>

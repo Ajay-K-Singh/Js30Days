@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Konami Key Sequence detection</title>
+	<script type="text/javascript"	src='http://www.cornify.com/js/cornify.js'></script>
+
+</head>
+<body>
+<script>
+	const pressedArray = [];
+	const secretCode = 'ajay'
+	window.addEventListener('keyup', (e) => {
+		pressedArray.push(e.key);
+		pressedArray.splice(-secretCode.length-1,pressedArray.length-secretCode.length);
+		if (pressedArray.join('').includes(secretCode)){
+			pressedArray.push(e.key);
+			cornify_add();
+		}
+		console.log(pressedArray);
+	});	
+</script>
+</body>
+</html>

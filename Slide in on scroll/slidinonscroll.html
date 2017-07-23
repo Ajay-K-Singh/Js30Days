@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div class = "site-wrap">
+		<h1>Slide in On Scroll</h1>	
+
+		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nibh purus, cursus vel tellus maximus, tristique sollicitudin lectus. Curabitur congue posuere erat, vitae congue velit maximus sed. Aenean vel venenatis purus. Mauris sagittis mattis dictum. Donec id ligula vel ex porttitor porttitor. Etiam consectetur, orci at sollicitudin feugiat, purus dui dignissim purus, sollicitudin malesuada ex purus nec quam. Proin diam urna, fringilla quis dignissim eget, facilisis nec arcu. <img src = "images/bicycle.jpg" class='align-right slide-in'>Nullam quis metus non sapien suscipit volutpat vel id mauris. Vivamus sed est eleifend, rutrum magna vitae, consectetur tellus. Morbi eu erat non magna congue tincidunt et at leo. Nullam id aliquet purus. Duis eget faucibus tortor.</p>
+
+		<p>Ut at ligula et enim lacinia volutpat. Cras ultricies, enim at eleifend vehicula, lacus massa egestas nisl, sed aliquet arcu magna vel quam. Sed eget lectus quis lectus vestibulum pretium non id leo. Morbi et quam ullamcorper, fermentum felis nec, iaculis nunc. Quisque viverra dolor a congue tristique. Nam iaculis placerat arcu, ac congue odio gravida vel. Praesent consectetur eros sodales, finibus ex non, ornare nisl. Sed non vehicula neque. Nunc pharetra leo enim. Aenean vel velit eros. Cras sed dui ante. Phasellus id elit placerat, imperdiet dolor a, pharetra ipsum. Sed porttitor arcu vehicula turpis accumsan auctor. Vestibulum iaculis mauris semper, pretium purus a, suscipit massa. Nullam quis faucibus velit, et egestas tellus. Nulla non ipsum posuere turpis tristique viverra eget vitae nisi.<img src = "images/chairSpring.jpg" class="align-left slide-in"></p>
+
+
+		<p>Sed lacinia dolor nulla, at ornare ante iaculis nec. Donec consequat molestie efficitur. Maecenas ac rhoncus velit. Donec at lorem sit amet neque pretium facilisis eu ut orci. Proin ipsum nibh, pellentesque nec nibh in, imperdiet tincidunt diam. Etiam non metus pretium, auctor odio sed, viverra arcu. Nam sit amet lectus eget dui ullamcorper rutrum.<img src = "images/leaf.jpg" class="align-right slide-in"> Sed sed cursus ex. Cras accumsan vitae ante ut finibus. Nam suscipit urna non lacus varius tincidunt. Pellentesque nec mi justo. Duis vitae molestie felis. Morbi suscipit tempus ornare. In fermentum, neque interdum hendrerit vehicula, risus dolor elementum mauris, at varius nisi arcu ut orci. Morbi lectus magna, convallis at vehicula tristique, dictum at nisi</p>
+		
+		<p>Vivamus lobortis at nibh at efficitur. Maecenas rhoncus tristique eros, molestie sollicitudin felis tincidunt eget. Mauris nec eros augue. Suspendisse nec est eget nulla gravida aliquam ac sit amet felis. Ut vehicula massa libero, a ullamcorper elit facilisis vitae. Phasellus risus diam, sollicitudin eu rutrum sed, feugiat id magna. Sed aliquet mi vel elit feugiat, id porta sem ultricies.<img src = "images/lion.jpg" class="align-left slide-in"> Nullam sagittis viverra risus at maximus. Nam vitae lorem mauris. Fusce ultrices lectus augue, eget molestie lorem dignissim eu. Fusce elementum, orci a scelerisque varius, nunc leo vehicula enim, vel rhoncus diam sapien vel massa. Aenean non dapibus lectus. Cras ut orci ac odio mollis pharetra ac non purus.</p>
+
+		<p>Etiam tempus metus lorem, eu mattis magna aliquet vitae. Nam feugiat dignissim ipsum ut varius. Etiam fermentum vestibulum lorem pulvinar tempor. Etiam dui elit, hendrerit sed sapien id, vulputate malesuada turpis. Integer sollicitudin, est eget mollis convallis, sapien eros ornare mi, nec vulputate justo ligula non libero.<img src = "images/pier.jpg" class="align-right slide-in"> Vivamus rutrum interdum orci, eget tempus tortor aliquam nec. Phasellus euismod eget felis id maximus. Donec vel fringilla mi, sit amet aliquam sem. Cras sed tempus nisl.</p>
+	</div>
+	<script>
+		function debounce(func, wait = 20, immediate = true) {
+    		var timeout;
+    		return function() {
+        		var context = this, args = arguments;
+        		var later = function() {
+            	timeout = null;
+           		if (!immediate) func.apply(context, args);
+        	};
+        	var callNow = immediate && !timeout;
+        	clearTimeout(timeout);
+        	timeout = setTimeout(later, wait);
+        	if (callNow) func.apply(context, args);
+    	};
+	};
+
+	const sliderImages = document.querySelectorAll('img');
+	console.log(sliderImages);
+
+	function checkSlide(e){
+		sliderImages.forEach(sliderImage =>{
+			const slideInAt = (window.scrollY + window.innerHeight) - sliderImage.height/2;
+			const imageBottom = sliderImage.offsetTop + sliderImage.height;
+			const isHalfShown = slideInAt > sliderImage.offsetTop;
+			const isNotScrolledPast = window.scrollY < imageBottom;
+			if (isHalfShown && isNotScrolledPast) {
+				sliderImage.classList.add('active');
+			}
+			else {
+				sliderImage.classList.remove('active');
+			}
+		});
+	}
+
+	window.addEventListener('scroll', debounce(checkSlide), 400);
+
+	</script>
+
+
+
+
+	<style>
+		html {
+			box-sizing: border-box;
+			background: #ffc600;
+			font-family: 'helvetica neue';
+			font-size: 20px;
+			font-weight: 200;
+		}
+		body {
+			margin: 0;
+		}
+
+		*, *:before, *:after {
+			box-sizing: inherit;
+		}
+
+		h1 {
+			margin-top: 0;
+		}
+
+		.site-wrap {
+			max-width: 700px;
+			margin: 100px auto;
+			background: white; 
+			padding: 40px;
+			text-align: justify;
+		}
+		img {
+			height: 150px;
+			width:300px;
+			}
+
+		.align-left {
+			float:left;
+			margin-right: 20px;
+		}
+		
+		.align-right {
+			float:right;
+			margin-left: 20px;
+		}
+
+		.slide-in {
+			opacity:0;
+			transition: all .5s;
+		}
+
+		.align-left.slide-in {
+			transform: translateX(-30%) scale(0.95);
+		}
+
+		.align-right.slide-in {
+			transform: translateX(30%) scale(0.95);	
+		}
+
+		.slide-in.active {
+			opacity:1;
+			transform: translateX(0%) scale(1);
+		}
+
+
+	</style>
+</body>
+</html>
